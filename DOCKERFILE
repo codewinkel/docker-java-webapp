@@ -1,0 +1,8 @@
+FROM frolvlad/alpine-oraclejdk8
+MAINTAINER Mike Winkelmann <mike@winkelmann.io>
+
+EXPOSE 8080
+
+COPY /content/*.jar /data/webservice.jar
+COPY /content/run.sh /data/run.sh
+ENTRYPOINT ["/data/run.sh"]
