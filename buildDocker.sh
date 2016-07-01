@@ -1,7 +1,8 @@
 #!/bin/sh
 
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-SERVICE_NAME=$1
+SERVIVE_VERSION=$1
+SERVICE_NAME=$2
 
 # copy content for docker build
 pushd ${SCRIPT_DIR}
@@ -14,10 +15,10 @@ popd
 DOCKER_REGISTRY=localhost:5000
 DOCKER_IMAGE_NAME=${SERVICE_NAME}
 DOCKER_IMAGE="${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}"
-DOCKER_IMAGE_LATEST="${DOCKER_IMAGE}:latest"
+DOCKER_IMAGE_VERSIONED="${DOCKER_IMAGE}:${SERVIVE_VERSION}"
 
-echo "Building docker image '${DOCKER_IMAGE_LATEST}'..."
-docker build --rm=true --tag="${DOCKER_IMAGE_LATEST}" ${SCRIPT_DIR}
+echo "Building docker image '${DOCKER_IMAGE_VERSIONED}'..."
+docker build --rm=true --tag="${DOCKER_IMAGE_VERSIONED}" ${SCRIPT_DIR}
 
 # TODO push in docker registry
 # echo "Push image in registry..."
