@@ -7,7 +7,7 @@ SERVICE_NAME=$2
 # copy content for docker build
 pushd ${SCRIPT_DIR}
 if [ ${PWD##*/} = 'docker' ]; then # in docker folder because we will rm something
-    rm -rvf files/*.jar
+    rm -rvf content/*.jar
     cp -av ../../target/${SERVICE_NAME}*.jar files/
 fi
 popd
