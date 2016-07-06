@@ -1,21 +1,22 @@
 #!/bin/sh
 
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-SERVIVE_VERSION=$1
-SERVICE_NAME=$2
+# e.g. myaccountservice-0.0.7
+SERVICE_NAME_WITH_VERSION=$1
+SERVICE_VERSION=${SERVICE_NAME_WITH_VERSION##*-}
+SERVICE_NAME=${SERVICE_NAME_WITH_VERSION%%-*}
 
 # copy content for docker build
 pushd ${SCRIPT_DIR}
 if [ ${PWD##*/} = 'docker' ]; then # in docker folder because we will rm something
     rm -rvf content/*.jar
-    cp -av ../../target/${SERVICE_NAME}*.jar files/
+    cp -av ../../target/${SERVICE_NAME}*.jar content/webservice.jar
 fi
 popd
 
 DOCKER_REGISTRY=localhost:5000
-DOCKER_IMAGE_NAME=${SERVICE_NAME}
-DOCKER_IMAGE="${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}"
-DOCKER_IMAGE_VERSIONED="${DOCKER_IMAGE}:${SERVIVE_VERSION}"
+DOCKER_IMAGE="${DOCKER_REGISTRY}/${SERVICE_NAME}"
+DOCKER_IMAGE_VERSIONED="${DOCKER_IMAGE}:${SERVICE_VERSION}"
 
 echo "Building docker image '${DOCKER_IMAGE_VERSIONED}'..."
 docker build --rm=true --tag="${DOCKER_IMAGE_VERSIONED}" ${SCRIPT_DIR}

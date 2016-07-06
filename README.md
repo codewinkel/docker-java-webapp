@@ -1,7 +1,8 @@
 # docker-java-webapp
-Dockerfile for spring-boot microservices with the minimum you need.
+Dockerfile for spring-boot microservices with the minimum scripts etc. you need to create a docker image.
 
 ## Procedure
+* create as git submodule in your project under <project-path>/deploy/docker
 * copy your files(web-archive compressed as .jar) to ./content/
 * start buildDocker.sh <servicename>
 * finished!!! now you have your created image
